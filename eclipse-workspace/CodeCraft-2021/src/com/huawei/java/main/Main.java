@@ -17,6 +17,7 @@ public class Main {
 	static ArrayList<Server> servers=new ArrayList<>();
 	static Pattern pattern=Pattern.compile("\\((.+)\\)");
 	static DayDeployMessage[] deployMessages;
+	static int vmNumber=0;
 	//从文件中读取数据
 	public static void loadDataByFile() throws FileNotFoundException
 	{
@@ -165,10 +166,12 @@ public class Main {
 				         {
 				        	 AddVMHandler.handleAdd(request,i);
 				        	 deployMessages[i].addInfo(Integer.valueOf(request[2].trim()));
+				        	 vmNumber++;
 				         }
 				         else if("del".equals(requestType))
 				         {
 				        	 DelVMHandler.delVM(Integer.valueOf(request[1].trim()),i);
+				        	 vmNumber--;
 				         }
 				         j++;
 			         } 

@@ -64,6 +64,7 @@ public class Server {
 		this.id=id;
 	}
 	//setter
+	//如果虚拟机达到了服务器的三分之一，并且cpu/内存相差大，那么不把虚拟机放到此服务器上
 	int addVM(VirtualMachine vm)
 	{
 		int mode=-1;//-1代表不能添加，0代表双节点部署，1代表单节点部署到a，2代表单节点到B
@@ -74,19 +75,19 @@ public class Server {
 		if(isDoublePart)
 		{
 			//两个节点都能提供相应的资源
-			if(partA.getRemainCpuNumber()>=vm.getVmInfo().getCpuNumber()/2&&partA.getRemainMemory()>=vm.getVmInfo().getMemory()/2&&partB.getRemainCpuNumber()>=vm.getVmInfo().getCpuNumber()/2&&partB.getRemainMemory()>=vm.getVmInfo().getMemory()/2)
+			if(partA.fitDeploy(cpu/2, memo/2)&&partB.fitDeploy(cpu/2, memo/2))
 			{
 				mode=0;
 			}
 		}
 		else
 		{
-			if(partA.getRemainCpuNumber()>=vm.getVmInfo().getCpuNumber()&&partA.getRemainMemory()>=vm.getVmInfo().getMemory())
+			if(partA.fitDeploy(cpu,memo))
 			{
 				mode=1;
 				
 			}
-			else if(partB.getRemainCpuNumber()>=vm.getVmInfo().getCpuNumber()&&partB.getRemainMemory()>=vm.getVmInfo().getMemory())
+			else if(partB.fitDeploy(cpu,memo))
 			{
 				mode=2;
 			}
@@ -110,6 +111,8 @@ public class Server {
 				partA.setRemainMemory(memorya-memo/2);
 				partB.setRemainMemory(memoryb-memo/2);
 				partB.setRemainCpuNumber(cpuNumberb-cpu/2);
+				partA.setRatio();
+				partB.setRatio();
 				return mode;
 			}
 			if(mode==1)
@@ -121,6 +124,7 @@ public class Server {
 				memory-=memo;
 				partA.setRemainCpuNumber(cpuNumber);
 				partA.setRemainMemory(memory);
+				partA.setRatio();
 				return mode;
 			}
 			if(mode==2)
@@ -131,6 +135,7 @@ public class Server {
 				memory-=memo;
 				partB.setRemainCpuNumber(cpuNumber);
 				partB.setRemainMemory(memory);
+				partB.setRatio();
 				return mode;
 			}
 		}
@@ -156,9 +161,11 @@ public class Server {
 				//改变A节点的资源
 				partA.setRemainCpuNumber(partA.getRemainCpuNumber()+cpuNumber/2);
 				partA.setRemainMemory(partA.getRemainMemory()+memory/2);
+				partA.setRatio();
 				//改变B节点的资源
 				partB.setRemainCpuNumber(partB.getRemainCpuNumber()+cpuNumber/2);
 				partB.setRemainMemory(partB.getRemainMemory()+memory/2);
+				partB.setRatio();
 			}
 			else
 			{
@@ -167,12 +174,14 @@ public class Server {
 					//改变A节点的资源
 					partA.setRemainCpuNumber(partA.getRemainCpuNumber()+cpuNumber);
 					partA.setRemainMemory(partA.getRemainMemory()+memory);
+					partA.setRatio();
 				}
 				if(vm.getDeployMode()==2)
 				{
 					//改变节点B的资源
 					partB.setRemainCpuNumber(partB.getRemainCpuNumber()+cpuNumber);
 					partB.setRemainMemory(partB.getRemainMemory()+memory);
+					partB.setRatio();
 				}
 			}
 			return true;
