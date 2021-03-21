@@ -8,8 +8,6 @@ class ServerInfo implements Comparable<ServerInfo>{
 	private int memory;//内存大小
 	private int price;//硬件成本
 	private int maintainCost;//维护成本
-	private double ratio=-1;
-	private ServerPartInfo partInfo;
 	//初始化服务器
 	public ServerInfo(String modelType,int cpuNumber,int memory,int price,int maintainCost)
 	{
@@ -18,7 +16,6 @@ class ServerInfo implements Comparable<ServerInfo>{
 		this.price=price;
 		this.maintainCost=maintainCost;
 		this.memory=memory;
-		this.ratio=this.cpuNumber*1.0/this.memory;
 	}
 	//getter
 	public String getModleType()
@@ -41,47 +38,22 @@ class ServerInfo implements Comparable<ServerInfo>{
 	{
 		return maintainCost;
 	}
-	public double getRatio()
-	{
-		return ratio;
-	}
 	//getter
 	public boolean couldDeploy(VirtualMachineInfo vmInfo)
 	{
 		if(vmInfo.getIsDoublePart())
 		{
-			if(this.partInfo.fitDeploy(vmInfo.getCpuNumber()/2, vmInfo.getMemory()/2))
-			{
-					return true;
-			}
-			return false;
+			if(cpuNumber>=vmInfo.getCpuNumber()&&memory>=vmInfo.getMemory())
+				return true;
+			else return false;
 		}
 		else
 		{
-			if(this.partInfo.fitDeploy(vmInfo.getCpuNumber(), vmInfo.getMemory()))
+			if(cpuNumber/2>=vmInfo.getCpuNumber()&&memory/2>=vmInfo.getMemory())
 			{
 				return true;
 			}
-			return false;
-		}
-	}
-	public boolean couldDeploy2(VirtualMachineInfo vmInfo)
-	{
-		if(vmInfo.getIsDoublePart())
-		{
-			if(this.partInfo.fitDeploy2(vmInfo.getCpuNumber()/2, vmInfo.getMemory()/2))
-			{
-				return true;
-			}
-			return false;
-		}
-		else
-		{
-			if(this.partInfo.fitDeploy2(vmInfo.getCpuNumber(), vmInfo.getMemory()))
-			{
-				return true;
-			}
-			return false;
+			else return false;
 		}
 	}
 	@Override
@@ -126,10 +98,5 @@ class ServerInfo implements Comparable<ServerInfo>{
 	public String toString()
 	{
 		return "["+modelType+","+cpuNumber+","+memory+","+price+","+maintainCost+"]";
-	}
-	//setter
-	public void setServerPartInfo(ServerPartInfo partInfo)
-	{
-		this.partInfo=partInfo;
 	}
 }
