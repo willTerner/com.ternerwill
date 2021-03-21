@@ -1,6 +1,9 @@
 package com.huawei.java.main;
 
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -18,9 +21,10 @@ public class Main {
 	static DayDeployMessage[] deployMessages;
 	static int vmNumber=0;
 	//从文件中读取数据
-	public static void loadDataByFile()
+	public static void loadDataByFile() throws FileNotFoundException
 	{
-		scan=new Scanner(System.in);
+		FileInputStream input=new FileInputStream("training-1.txt");
+		scan=new Scanner(input);
 		int serverNum=0;
 		if(scan.hasNext())
 			serverNum=scan.nextInt();
@@ -123,8 +127,13 @@ public class Main {
 			}
 		}
 	}
-	public static void main(String[] args){
+	public static void main(String[] args) throws FileNotFoundException{
+							try {
 								loadDataByFile();
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 		 int dayNum=0; 
 		 if(scan.hasNextInt()) 
 			 dayNum=scan.nextInt();
@@ -144,6 +153,7 @@ public class Main {
 				 break;
 			 int formerServerNum=servers.size();
 			 deployMessages[i]=new DayDeployMessage(i+1,formerServerNum);
+			 int addNum=0;
 			 //处理每一天的请求
 			 do
 			 {
@@ -162,6 +172,7 @@ public class Main {
 				        	 AddVMHandler.handleAdd(request,i);
 				        	 deployMessages[i].addInfo(Integer.valueOf(request[2].trim()));
 				        	 vmNumber++;
+				        	 addNum++;
 				         }
 				         else if("del".equals(requestType))
 				         {
@@ -172,13 +183,22 @@ public class Main {
 			         } 
 		         }
 			 }while(j<requestNum);
+			 //System.out.println(addNum);
 			 deployMessages[i].setDeployMessage();
 			 i++;
 		 }while(i<dayNum);
+			FileOutputStream output=new FileOutputStream("result.txt");
 		 for(int k=0;k<dayNum;k++)
 		 {
-			System.out.print(deployMessages[k].toString());
+			 try {
+				output.write(deployMessages[k].toString().getBytes("UTF-8"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//System.out.print(deployMessages[k].toString());
 		 }
+		 int k=0;
 	}
 
 }

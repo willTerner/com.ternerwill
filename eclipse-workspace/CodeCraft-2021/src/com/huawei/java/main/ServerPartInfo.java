@@ -12,6 +12,13 @@ public class ServerPartInfo {
 		this.memory=info.getMemory()/2;
 		this.ratio=this.cpuNumber*1.0/this.memory;
 	}
+	private boolean issameTypeRatio(int cpuNumber,int memory)
+	{
+		double vmRatio=cpuNumber*1.0/memory;
+		if((ratio>=1&&vmRatio>=1)||(ratio<=1&&vmRatio<=1))
+				return true;
+		else return false;
+	}
 	@Override
 	public String toString()
 	{
@@ -19,7 +26,7 @@ public class ServerPartInfo {
 	}
 	public boolean fitDeploy(int cpuNumber,int memory)
 	{
-		if(this.cpuNumber>=cpuNumber&&this.memory>=memory&&Math.abs(ratio-cpuNumber*1.0/memory)<=1)
+		if(this.cpuNumber>=cpuNumber&&this.memory>=memory&&issameTypeRatio(cpuNumber,memory))
 			return true;
 		else return false;
 	}

@@ -14,13 +14,23 @@ public class ServerPart {
 		remainMemory=info.getMemory();
 		this.ratio=this.partInfo.getRatio();
 	}
+	private boolean isSameTypeRatio(int cpuNumber,int memory)
+	{
+		double vmRatio=cpuNumber*1.0/memory;
+		if((ratio>=1&&vmRatio>=1)||(ratio<=1&&vmRatio<=1))
+			return true;
+		else return false;
+	}
 	public boolean fitDeploy(int cpuNumber,int memory)
 	{
+		
 		if(remainCpuNumber>=cpuNumber&&remainMemory>=memory)
 		{
-			if((remainCpuNumber>=partInfo.getCpuNumber()*0.75||remainMemory>=partInfo.getMemory()*0.75)&&Math.abs(this.ratio-cpuNumber*1.0/memory)>=1)
+			if((remainCpuNumber<=20&&remainMemory<=20)||(cpuNumber<=20&&memory<=20))
+				return true;
+			else if((remainCpuNumber>=partInfo.getCpuNumber()*0.75||remainMemory>=partInfo.getMemory()*0.75)&&!isSameTypeRatio(cpuNumber,memory))
 				return false;
-			else return true;
+			return true;
 		}
 		return false;
 	}
