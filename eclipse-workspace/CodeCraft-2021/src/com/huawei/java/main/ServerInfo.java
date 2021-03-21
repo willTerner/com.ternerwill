@@ -65,6 +65,25 @@ class ServerInfo implements Comparable<ServerInfo>{
 			return false;
 		}
 	}
+	public boolean couldDeploy2(VirtualMachineInfo vmInfo)
+	{
+		if(vmInfo.getIsDoublePart())
+		{
+			if(this.partInfo.fitDeploy2(vmInfo.getCpuNumber()/2, vmInfo.getMemory()/2))
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			if(this.partInfo.fitDeploy2(vmInfo.getCpuNumber(), vmInfo.getMemory()))
+			{
+				return true;
+			}
+			return false;
+		}
+	}
 	@Override
 	public boolean equals(Object o)
 	{

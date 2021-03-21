@@ -40,11 +40,28 @@ public class AddVMHandler {
 						{
 							vm.setDeployMode(mode);
 							server.insertVM(vm);
+							return ;
 						}
-						break;
 					}
 				}
-				break;
+				//到了这里说明没有找到匹配的服务器，采用第二套匹配方法
+				for(ServerInfo serverInfo:Main.serverList)
+				{
+					if(serverInfo.couldDeploy2(vmInfo))
+					{
+						Server server=new Server(serverInfo,Main.serverPartInfoList.get(Main.serverList.indexOf(serverInfo)));
+						Main.servers.add(server);
+						int mode=server.addVM2(vm);
+						Main.deployMessages[index].addServer(server);
+						Main.deployMessages[index].buyServer(serverInfo.getModleType());
+						if(mode!=-1)
+						{
+							vm.setDeployMode(mode);
+							server.insertVM(vm);
+							return ;
+						}
+					}
+				}
 			}
 		}
 	}

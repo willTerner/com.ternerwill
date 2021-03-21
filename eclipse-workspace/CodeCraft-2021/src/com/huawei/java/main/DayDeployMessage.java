@@ -16,6 +16,10 @@ public class DayDeployMessage {
 		this.index=index;
 		this.formerSeverNum=formerSeverNum;
 	}
+	public LinkedHashMap<String,Integer> getBugMessage()
+	{
+		return buyMessage;
+	}
 	public void addVmsTheDayDel(Integer id,int mode,Server server)
 	{
 		vmsTheDayDel.put(id,new VirtualMachineTheDayDel(mode,server));
