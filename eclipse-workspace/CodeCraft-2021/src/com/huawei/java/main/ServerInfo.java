@@ -9,6 +9,7 @@ class ServerInfo implements Comparable<ServerInfo>{
 	private int price;//硬件成本
 	private int maintainCost;//维护成本
 	private double ratio=-1;
+	private ServerPartInfo partInfo;
 	//初始化服务器
 	public ServerInfo(String modelType,int cpuNumber,int memory,int price,int maintainCost)
 	{
@@ -49,25 +50,19 @@ class ServerInfo implements Comparable<ServerInfo>{
 	{
 		if(vmInfo.getIsDoublePart())
 		{
-			if(cpuNumber>=vmInfo.getCpuNumber()&&memory>=vmInfo.getMemory())
+			if(this.partInfo.fitDeploy(vmInfo.getCpuNumber()/2, vmInfo.getMemory()/2))
 			{
-				if((vmInfo.getCpuNumber()>=cpuNumber/2||vmInfo.getMemory()>=memory/2)&&Math.abs(ratio-vmInfo.getRatio())>=1)
-				return false;
-				else 
 					return true;
 			}
 			return false;
 		}
 		else
 		{
-			if(cpuNumber/2>=vmInfo.getCpuNumber()&&memory/2>=vmInfo.getMemory())
+			if(this.partInfo.fitDeploy(vmInfo.getCpuNumber(), vmInfo.getMemory()))
 			{
-				if((vmInfo.getCpuNumber()>=cpuNumber/4||vmInfo.getMemory()>=memory/4)&&Math.abs(ratio-vmInfo.getRatio())>=1)
-					return false;
-				else 
 				return true;
 			}
-			else return false;
+			return false;
 		}
 	}
 	@Override
@@ -112,5 +107,10 @@ class ServerInfo implements Comparable<ServerInfo>{
 	public String toString()
 	{
 		return "["+modelType+","+cpuNumber+","+memory+","+price+","+maintainCost+"]";
+	}
+	//setter
+	public void setServerPartInfo(ServerPartInfo partInfo)
+	{
+		this.partInfo=partInfo;
 	}
 }

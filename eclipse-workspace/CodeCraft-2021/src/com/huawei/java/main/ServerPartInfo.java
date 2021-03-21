@@ -17,6 +17,12 @@ public class ServerPartInfo {
 	{
 		return "[modelType="+modelType+", cpuNumber="+cpuNumber+", memory="+memory+"]";
 	}
+	public boolean fitDeploy(int cpuNumber,int memory)
+	{
+		if(this.cpuNumber>=cpuNumber&&this.memory>=memory&&Math.abs(ratio-cpuNumber*1.0/memory)<=1)
+			return true;
+		else return false;
+	}
 	//getter
 	public String getModelType()
 	{

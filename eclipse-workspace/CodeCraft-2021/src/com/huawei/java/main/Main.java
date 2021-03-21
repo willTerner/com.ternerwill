@@ -19,10 +19,9 @@ public class Main {
 	static DayDeployMessage[] deployMessages;
 	static int vmNumber=0;
 	//从文件中读取数据
-	public static void loadDataByFile() throws FileNotFoundException
+	public static void loadDataByFile()
 	{
-		FileInputStream input=new FileInputStream("training-1.txt");
-		scan=new Scanner(input);
+		scan=new Scanner(System.in);
 		int serverNum=0;
 		if(scan.hasNext())
 			serverNum=scan.nextInt();
@@ -54,7 +53,9 @@ public class Main {
 		//构造相应的serverPartInfo
 		for(ServerInfo info:serverList)
 		{
-			serverPartInfoList.add(new ServerPartInfo(info));
+			ServerPartInfo partInfo=new ServerPartInfo(info);
+			serverPartInfoList.add(partInfo);
+			info.setServerPartInfo(partInfo);
 		}
 		int vmNum=0;
 		if(scan.hasNextInt())
@@ -124,12 +125,7 @@ public class Main {
 		}
 	}
 	public static void main(String[] args){
-					try {
-						loadDataByFile();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+							loadDataByFile();
 		 int dayNum=0; 
 		 if(scan.hasNextInt()) 
 			 dayNum=scan.nextInt();
