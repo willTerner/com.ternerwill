@@ -20,7 +20,9 @@ public class DelVMHandler {
 							Main.deployMessages[index].addVmsTheDayDel(vmId,vm.getDeployMode(),server);
 						}
 					}
+					iterator.remove();
 					server.delVM(vm);
+					Main.deployMessages[index].addDelServers(server);
 					return ;
 				}
 			}

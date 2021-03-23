@@ -5,6 +5,7 @@ public class VirtualMachine {
 	private int id;
 	private int serverId=-1;
 	private int deployMode;//部署模式，0为双节点部署，1为单节点部署到a节点，2为单节点部署到b节点
+	private Server server;
 	public VirtualMachine(VirtualMachineInfo vmInfo,int id)
 	{
 		this.vmInfo=vmInfo;
@@ -33,9 +34,21 @@ public class VirtualMachine {
 	{
 		return deployMode;
 	}
+	public Server getServer()
+	{
+		return server;
+	}
+	public int getServerId()
+	{
+		return serverId;
+	}
 	//getter
 	
 	//setter
+	public void setServer(Server server)
+	{
+		this.server=server;
+	}
 	public void setServerId(int serverId)
 	{
 		this.serverId=serverId;

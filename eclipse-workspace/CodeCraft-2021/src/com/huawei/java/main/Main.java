@@ -2,6 +2,8 @@ package com.huawei.java.main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -17,10 +19,18 @@ public class Main {
 	static ArrayList<Server> servers=new ArrayList<>();
 	static Pattern pattern=Pattern.compile("\\((.+)\\)");
 	static DayDeployMessage[] deployMessages;
+	static int vmNumber=0;
+	static int dayNumber=0;
 	//从文件中读取数据
-	public static void loadDataByFile() throws FileNotFoundException
+	public static void loadDataByFile()
 	{
-		FileInputStream input=new FileInputStream("training-1.txt");
+		FileInputStream input=null;
+		try {
+			input=new FileInputStream("training-1.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		scan=new Scanner(input);
 		int serverNum=0;
 		if(scan.hasNext())
@@ -123,12 +133,7 @@ public class Main {
 		}
 	}
 	public static void main(String[] args){
-					try {
-						loadDataByFile();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+							loadDataByFile();
 		 int dayNum=0; 
 		 if(scan.hasNextInt()) 
 			 dayNum=scan.nextInt();
@@ -138,6 +143,7 @@ public class Main {
 			return ;
 		 }
 		 int i=0;
+		 dayNumber=dayNum;
 		 do
 		 {
 			 int requestNum=0; 
@@ -165,22 +171,107 @@ public class Main {
 				         {
 				        	 AddVMHandler.handleAdd(request,i);
 				        	 deployMessages[i].addInfo(Integer.valueOf(request[2].trim()));
+				        	 vmNumber++;
 				         }
 				         else if("del".equals(requestType))
 				         {
 				        	 DelVMHandler.delVM(Integer.valueOf(request[1].trim()),i);
+				        	 vmNumber--;
 				         }
 				         j++;
 			         } 
 		         }
 			 }while(j<requestNum);
 			 deployMessages[i].setDeployMessage();
+			 //isOverloaded();
 			 i++;
 		 }while(i<dayNum);
-		 for(int k=0;k<2;k++)
+		 printResult();
+		 int k=0;
+		 for(Server ser:servers)
 		 {
-			 System.out.print(deployMessages[k].toString());
+			 if(ser.isUnfit())
+				System.out.println(k);
+			 k++;
 		 }
+//		 calcuServers();
+//		 printServers();
+		 calculateCost();
+	}
+	private static void printResult()
+	{
+		//FileOutputStream output=new FileOutputStream("result.txt");
+		for(int k=0;k<dayNumber;k++)
+		 {
+			 //System.out.print(deployMessages[k].toString());
+//			 try {
+//				output.write(deployMessages[k].toString().getBytes("UTF-8"));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		 }
+	}
+	private static void calcuServers()
+	{
+		 FileOutputStream output=null;
+		 try {
+			output=new FileOutputStream("bugServers.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 for(Server server:servers)
+		 {
+			 String price=String.valueOf(server.getServerInfo().getPrice())+"\n";
+			 try {
+				output.write(price.getBytes("UTF-8"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }
+	}
+	private static void printServers()
+	{
+		 int sum=0;
+		 int totalPrice=0;
+			for(int j=dayNumber/16;j<dayNumber;j++)
+			{
+				//int cost=0;
+				ArrayList<Server> buyServers=deployMessages[j].getCreateServers();
+//				int size=buyServers.size();
+//				System.out.println("第"+(j+1)+"天购买的服务器数量"+size);
+//				sum+=size;
+				for(Server server:buyServers)
+				{
+					//System.out.println(server.getServerInfo().toString());
+					//cost+=server.getServerInfo().getPrice();
+					sum+=server.getServerInfo().getPrice();
+					totalPrice+=server.getServerInfo().getMaintainCost()*(dayNumber-j);
+				}
+				//System.out.println("第"+(j+1)+"天购买的服务器价格为"+cost);
+			}
+			System.out.println("前面一部分购买服务器的成本为"+sum);
+			System.out.println("前面一部分的维护总成本为"+totalPrice);
+			System.out.println("\n");
+	}
+	private static void  calculateCost()
+	{
+		long sum=0;
+		for(Server server:servers)
+		{
+			sum+=server.getServerInfo().getPrice();
+		}
+		for(int k=0;k<dayNumber;k++)
+		{
+			for(Server server:deployMessages[k].getCreateServers())
+			{
+				int mainCost=server.getServerInfo().getMaintainCost();
+				sum+=mainCost*(dayNumber-k);
+			}
+		}
+		System.out.println("总成本"+sum);
 	}
 
 }

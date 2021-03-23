@@ -6,6 +6,7 @@ public class VirtualMachineInfo {
 	private int memory;
 	private boolean isDoublePart;
 	private double ratio=-1;
+	private int type=0;//cpu/内存
 	public VirtualMachineInfo(String modelType,int cpuNumber,int memory,boolean isDoublePart)
 	{
 		this.cpuNumber=cpuNumber;
@@ -13,8 +14,14 @@ public class VirtualMachineInfo {
 		this.memory=memory;
 		this.isDoublePart=isDoublePart;
 		this.ratio=this.cpuNumber*1.0/this.memory;
+		if(memory-cpuNumber>=100)
+			type=1;//内存多
 	}
 	//getter
+	public int getType()
+	{
+		return type;
+	}
 	public double getRatio()
 	{
 		return ratio;

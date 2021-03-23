@@ -39,7 +39,47 @@ class ServerInfo implements Comparable<ServerInfo>{
 		return maintainCost;
 	}
 	//getter
+	private boolean isWasteCpu(int remainCpuNumber,int remainMemory)
+	{
+		if(remainCpuNumber<=2&&remainMemory>=40)
+			return true;
+		return false;
+	}
+	private boolean isWasteMemory(int remainCpuNumber,int remainMemory)
+	{
+		if(remainMemory<=2&&remainCpuNumber>=40)
+			return true;
+		return false;
+	}
 	public boolean couldDeploy(VirtualMachineInfo vmInfo)
+	{
+		if(vmInfo.getIsDoublePart())
+		{
+			if(cpuNumber>=vmInfo.getCpuNumber()&&memory>=vmInfo.getMemory())
+			{
+				int laterCpu=this.cpuNumber/2-vmInfo.getCpuNumber()/2;
+				int laterMemory=this.memory/2-vmInfo.getMemory()/2;
+				if(isWasteCpu(laterCpu,laterMemory)||isWasteMemory(laterCpu,laterMemory))
+					return false;
+				else return true;
+			}
+			return false;
+		}
+		else
+		{
+			if(cpuNumber/2>=vmInfo.getCpuNumber()&&memory/2>=vmInfo.getMemory())
+			{
+				int laterCpu=this.cpuNumber/2-vmInfo.getCpuNumber();
+				int laterMemory=this.memory/2-vmInfo.getMemory();
+				if(isWasteCpu(laterCpu,laterMemory)||isWasteMemory(laterCpu,laterMemory))
+					return false;
+				else return true;
+			}
+			return false;
+		}
+	}
+	//针对后面几天采用原来的匹配方法
+	public boolean couldDeploy2(VirtualMachineInfo vmInfo)
 	{
 		if(vmInfo.getIsDoublePart())
 		{
