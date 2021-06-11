@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="scene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="701.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ternerwill.MainController">
+   <children>
+      <ImageView fitHeight="452.0" fitWidth="701.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/bg.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="-1.0" prefHeight="29.0" prefWidth="763.0" text="定时关机" textFill="#d6fc02">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="18.0" />
+         </font>
+      </Label>
+      <Separator layoutX="115.0" layoutY="37.0" orientation="VERTICAL" prefHeight="411.0" prefWidth="15.0" />
+      <Separator layoutY="29.0" prefHeight="22.0" prefWidth="763.0" />
+      <Separator layoutX="123.0" layoutY="277.0" prefHeight="4.0" prefWidth="644.0" />
+      <Separator layoutX="398.0" layoutY="77.0" orientation="VERTICAL" prefHeight="200.0" />
+      <TextField fx:id="hour1" layoutX="142.0" layoutY="128.0" prefHeight="23.0" prefWidth="51.0" text="0" />
+      <Label layoutX="202.0" layoutY="132.0" prefHeight="15.0" prefWidth="15.0" text=":" textFill="#d6fc02">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <TextField fx:id="minute1" layoutX="217.0" layoutY="128.0" prefHeight="23.0" prefWidth="51.0" text="0" />
+      <Label layoutX="277.0" layoutY="132.0" prefHeight="15.0" prefWidth="15.0" text=":" textFill="#d6fc02" />
+      <TextField fx:id="second1" layoutX="298.0" layoutY="128.0" prefHeight="23.0" prefWidth="51.0" text="0" />
+      <TextField fx:id="hour2" layoutX="433.0" layoutY="128.0" prefHeight="23.0" prefWidth="43.0" text="0" />
+      <Label layoutX="486.0" layoutY="132.0" text="小时" textFill="#d6fc02" />
+      <TextField fx:id="minute2" layoutX="522.0" layoutY="128.0" prefHeight="23.0" prefWidth="43.0" text="10" />
+      <Label layoutX="576.0" layoutY="132.0" text="分钟" textFill="#d6fc02">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <TextField fx:id="second2" layoutX="613.0" layoutY="128.0" prefHeight="23.0" prefWidth="43.0" text="0" />
+      <Label layoutX="668.0" layoutY="132.0" text="秒" textFill="#d6fc02">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Button fx:id="submit1" layoutX="217.0" layoutY="203.0" mnemonicParsing="false" onAction="#submitShutdown1" text="确认" textFill="#2613a4" />
+      <Button fx:id="submit2" layoutX="524.0" layoutY="203.0" mnemonicParsing="false" onAction="#submitShutdown2" text="确认" textFill="#2613a4" />
+      <Label fx:id="title" alignment="CENTER" layoutX="123.0" layoutY="51.0" prefHeight="15.0" prefWidth="636.0" text="设置关机时间，有以下两种方式，根据需要任选其一" textFill="#d6fc02">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Separator layoutX="126.0" layoutY="75.0" prefHeight="4.0" prefWidth="636.0" />
+      <Label alignment="CENTER" layoutX="123.0" layoutY="86.0" prefHeight="15.0" prefWidth="279.0" text="1.输入关机时刻" textFill="#d6fc02" />
+      <Label alignment="CENTER" layoutX="401.0" layoutY="86.0" prefHeight="15.0" prefWidth="359.0" text="2.输入距离电脑关机的时间" textFill="#d6fc02" />
+      <Label alignment="CENTER" layoutX="1.0" layoutY="44.0" prefHeight="29.0" prefWidth="118.0" text="设置" textFill="#d6fc02" />
+      <Label layoutX="6.0" layoutY="79.0" prefHeight="15.0" prefWidth="32.0" text="主题" textFill="#d6fc02">
+         <font>
+            <Font name="STSong" size="10.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="125.0" layoutY="290.0" prefHeight="39.0" prefWidth="636.0" text="已经计划的关机时间" textFill="#d6fc02" />
+      <Label fx:id="cancleTime" alignment="CENTER" layoutX="357.0" layoutY="339.0" prefHeight="30.0" prefWidth="196.0" text="无计划关机时间" textFill="#d6fc02" />
+      <Button fx:id="cancelShutdown" layoutX="418.0" layoutY="392.0" mnemonicParsing="false" onAction="#cacelShut" text="取消关机" textFill="#2613a4" />
+      <ColorPicker fx:id="theme" layoutX="38.0" layoutY="75.0" onAction="#changeTheme" prefHeight="23.0" prefWidth="81.0" />
+   </children>
+</AnchorPane>
