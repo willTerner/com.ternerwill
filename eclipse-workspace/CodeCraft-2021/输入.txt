@@ -1,2 +1,0 @@
-1 [modelType=vmPCXA5 ,cpuNumber=88, memory=22, isDoublePart=false]
-			18,52,true
