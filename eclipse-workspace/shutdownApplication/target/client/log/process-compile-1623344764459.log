@@ -1,0 +1,33 @@
+Process
+=======
+compile
+
+Command Line
+============
+D:\graalvm-svm-windows-gluon-21.1.0-dev\bin\native-image.cmd "-Djdk.internal.lambda.eagerlyInitialize=false" --no-server -H:+ExitAfterRelocatableImageWrite -H:+SharedLibrary -H:+AddAllCharsets -H:+ReportExceptionStackTraces -H:-DeadlockWatchdogExitOnTimeout "-H:DeadlockWatchdogInterval=0" -H:+RemoveSaturatedTypeFlows "--features=org.graalvm.home.HomeFinderFeature" "-H:TempDirectory=c:\Users\WillTerner\gitRepository\eclipse-workspace\shutdownApplication\target\client\x86_64-windows\gvm\tmp" "-H:EnableURLProtocols=http,https" "-H:ReflectionConfigurationFiles=c:\Users\WillTerner\gitRepository\eclipse-workspace\shutdownApplication\target\client\x86_64-windows\gvm\reflectionconfig-x86_64-windows.json" "-H:JNIConfigurationFiles=c:\Users\WillTerner\gitRepository\eclipse-workspace\shutdownApplication\target\client\x86_64-windows\gvm\jniconfig-x86_64-windows.json" "-H:ResourceConfigurationFiles=c:\Users\WillTerner\gitRepository\eclipse-workspace\shutdownApplication\target\client\x86_64-windows\gvm\resourceconfig-x86_64-windows.json" "-H:IncludeResourceBundles=com/sun/javafx/scene/control/skin/resources/controls,com/sun/javafx/scene/control/skin/resources/controls-nt,com.sun.javafx.tk.quantum.QuantumMessagesBundle" "-Dsvm.platform=org.graalvm.nativeimage.Platform$WINDOWS_AMD64" -cp "c:\Users\WillTerner\gitRepository\eclipse-workspace\shutdownApplication\target\client\x86_64-windows\gvm\tmp\classpathJar.jar" com.ternerwill.Main
+
+Output
+======
+Warning: Ignoring server-mode native-image argument --no-server.
+[com.ternerwill.main:17856]    classlist:   2,524.29 ms,  0.96 GB
+[com.ternerwill.main:17856]        (cap):   1,385.40 ms,  0.96 GB
+[com.ternerwill.main:17856]        setup:   4,367.77 ms,  0.96 GB
+[com.ternerwill.main:17856]     (clinit):     873.40 ms,  5.13 GB
+[com.ternerwill.main:17856]   (typeflow):  24,812.24 ms,  5.13 GB
+[com.ternerwill.main:17856]    (objects):  32,062.23 ms,  5.13 GB
+[com.ternerwill.main:17856]   (features):   3,872.60 ms,  5.13 GB
+[com.ternerwill.main:17856]     analysis:  63,515.39 ms,  5.13 GB
+[com.ternerwill.main:17856]     universe:   2,081.94 ms,  5.23 GB
+[com.ternerwill.main:17856]      (parse):   8,984.48 ms,  5.23 GB
+[com.ternerwill.main:17856]     (inline):  11,654.23 ms,  6.60 GB
+[com.ternerwill.main:17856]    (compile):  44,874.38 ms,  5.89 GB
+[com.ternerwill.main:17856]      compile:  68,356.84 ms,  5.89 GB
+[com.ternerwill.main:17856]        image:   7,244.43 ms,  6.21 GB
+[com.ternerwill.main:17856]        write:     170.77 ms,  6.21 GB
+# Printing build artifacts to: com.ternerwill.main.build_artifacts.txt
+[com.ternerwill.main:17856]      [total]: 148,881.01 ms,  6.21 GB
+
+
+Result
+======
+result: 0
